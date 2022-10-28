@@ -1,0 +1,6 @@
+First you need to define any parts that you want to use for automation (EX. distance_sensor = UltrasonicSensor(Port.S1)
+Next, make a class that you will run when you want to active automation.
+Build this class with all the auto feature you want for the begining of the challange.
+Next, in the event 1 section (the elif ev_class == 1) Put an if statement that checks if code == 304 and value == 1.
+Inside this if statement put a call for your class that you made (class_name_here()), and then it will run you automation code.
+In the automation code you must make it able to end when key is pressed, and also make it so whatever your using for moving forward and back doesnt send information while the class is running.
