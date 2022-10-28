@@ -63,13 +63,13 @@ while event:
 
     if ev_type == 1:
         if code == 310 and value == 1:
-            right = 30
+            right = 50
             print(arm_motor.angle())
         if code == 310 and code == 311 and value == 0:
             right = 0
             print(arm_motor.angle())
         if code == 311 and value == 1:
-            right = -30
+            right = -50
             print(arm_motor.angle())
         if code == 310 and code == 311 and value == 1:
             right = 0
@@ -77,7 +77,7 @@ while event:
     
     #right stick code
     elif ev_type == 3: # Stick was moved
-        if code == 0: 
+        if code == 3: 
             left = scale(value, (0,255), (40, -40))
         if code == 5:
             forward = scale(value, (0,255), (0,-100))
@@ -99,3 +99,4 @@ while event:
     event = in_file.read(EVENT_SIZE)
 
 in_file.close()
+Footer
