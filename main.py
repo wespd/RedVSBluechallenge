@@ -10,16 +10,16 @@ import struct
 # Declare motors 
 left_motor = Motor(Port.B)
 right_motor = Motor(Port.C)
-steer_motor = Motor(Port.A)
+arm_motor = Motor(Port.A)
 forward = 0
 left = 0
 right = 0
 
 
 # Auto center steering wheels.
-steer_motor.run_until_stalled(250)
-steer_motor.reset_angle(80)
-steer_motor.run_target(300,0)
+arm_motor.run_until_stalled(250)
+arm_motor.reset_angle(80)
+arm_motor.run_target(300,0)
 
 
 # A helper function for converting stick values (0 - 255)
@@ -55,27 +55,45 @@ event = in_file.read(EVENT_SIZE)
 
 while event:
     (tv_sec, tv_usec, ev_type, code, value) = struct.unpack(FORMAT, event)
-    
-    if ev_type == 1: # A button was pressed or released.
+#left and right bumper control arm_motor code
+# IN PROGRESS IT PROBABLY WON'T WORK
+
+
+
+
+    if ev_type == 1:
         if code == 310 and value == 1:
-            right = 85
-            print(steer_motor.angle())
+            right = 80
+            print(arm_motor.angle())
+        if code == 310 and code == 311 and value == 0:
+            right = 0
+            print(arm_motor.angle())
         if code == 311 and value == 1:
-            right = -100
-            print(steer_motor.angle())
-            
+            right = -80
+            print(arm_motor.angle())
+        if code == 310 and code == 311 and value == 1:
+            right = 0
+        
+    
+    #right stick code
     elif ev_type == 3: # Stick was moved
         if code == 0: 
             left = scale(value, (0,255), (40, -40))
-        if code == 4: # Righ stick vertical
-            forward = scale(value, (0,255), (100,-100))
+        if code == 5:
+            forward = scale(value, (0,255), (0,-100))
+        if code == 2:
+            forward = scale(value, (0,255), (0,100))
+
+        
+
+
         
     # Set motor voltages. 
     left_motor.dc(forward - left)
     right_motor.dc(forward + left)
 
     # Track the steering angle
-    steer_motor.track_target(right)
+    arm_motor.track_target(right)
 
     # Finally, read another event
     event = in_file.read(EVENT_SIZE)
